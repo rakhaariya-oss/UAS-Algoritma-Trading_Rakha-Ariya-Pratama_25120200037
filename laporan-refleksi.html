@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Laporan Refleksi - Indodax Dry Run Bot</title>
+  <style>
+    @page { size: A4; margin: 17mm 18mm 18mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #172f36; font: 10.5pt/1.55 "Segoe UI", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 7mm; font: 700 27pt/1.12 Georgia, serif; color: #073f50; }
+    h2 { margin: 0 0 4mm; font-size: 15pt; color: #07566b; }
+    h3 { margin: 0 0 2mm; font-size: 11pt; color: #07566b; }
+    p { margin-bottom: 3.2mm; }
+    .page { position: relative; min-height: 258mm; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+    .topline { display: flex; align-items: center; justify-content: space-between; gap: 8mm; margin-bottom: 13mm; padding-bottom: 4mm; border-bottom: 1px solid #d5e0df; }
+    .logo { width: 21mm; height: 21mm; object-fit: contain; }
+    .course { color: #667b80; font-size: 9pt; text-align: right; }
+    .kicker { margin-bottom: 3mm; color: #a2873f; font-size: 9pt; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    .identity { margin: 0 0 11mm; color: #526a70; font-size: 12pt; }
+    .identity strong { color: #173a43; }
+    .summary { border-left: 4px solid #d6b663; padding: 5mm 6mm; background: #f3f6f3; }
+    .summary strong { color: #07566b; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 6mm 0; }
+    .stat { border: 1px solid #d8e2df; padding: 4mm; background: #fbfcfa; }
+    .stat span { display: block; color: #667b80; font-size: 8.5pt; }
+    .stat strong { display: block; margin-top: 1mm; color: #07566b; font-size: 15pt; }
+    .section { margin: 5mm 0; }
+    ul { margin: 2mm 0 4mm; padding-left: 6mm; }
+    li { margin-bottom: 1.6mm; }
+    table { width: 100%; margin: 3mm 0 5mm; border-collapse: collapse; font-size: 9.5pt; }
+    th { color: #fff; background: #07566b; text-align: left; }
+    th, td { padding: 2.5mm 3mm; border-bottom: 1px solid #d8e2df; vertical-align: top; }
+    tr:nth-child(even) td { background: #f4f7f5; }
+    .callout { margin: 4mm 0; border: 1px solid #dfcf9e; padding: 4mm 5mm; background: #fbf7e9; }
+    .callout.warning { border-color: #dbb2a7; background: #fbf1ee; }
+    .muted { color: #667b80; font-size: 9pt; }
+    .footer { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; border-top: 1px solid #d5e0df; padding-top: 2mm; color: #75878a; font-size: 8pt; }
+    .page-number { color: #07566b; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <div class="topline">
+      <img class="logo" src="logo-cakrawala-doang-v2.webp" alt="Logo Cakrawala">
+      <div class="course">UAS ALGORITHMIC TRADING<br>Indodax Dry Run Bot</div>
+    </div>
+    <p class="kicker">Laporan Refleksi Proyek</p>
+    <h1>Perancangan dan Evaluasi<br>Bot Trading Dry Run</h1>
+    <p class="identity"><strong>Rakha Ariya Pratama</strong><br>NIM 25120200037<br>14 November 2026</p>
+
+    <div class="summary">
+      <strong>Ringkasan refleksi.</strong> Proyek ini berhasil membangun alur backtest historis dan dashboard untuk strategi trend-breakout pada pasangan IDR. Hasil backtest dan replay historis tersedia, tetapi keduanya belum membuktikan bahwa bot berjalan dan mencatat forward test live selama periode tugas. Karena itu, angka performa perlu dibaca bersama keterbatasan sumber data, waktu freeze, dan bukti operasional yang dijelaskan dalam laporan ini.
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span>Backtest tersimpan</span><strong>+31,45%</strong></div>
+      <div class="stat"><span>Forward report tersimpan</span><strong>-0,19%</strong></div>
+      <div class="stat"><span>Trade forward report</span><strong>1</strong></div>
+    </div>
+
+    <div class="section">
+      <h2>Tujuan dan rancangan</h2>
+      <p>Tujuan proyek adalah menguji aturan strategi pada data candle Indodax tanpa mengirim order sungguhan. Implementasi memakai tujuh pasangan IDR: BTC, ETH, SOL, BNB, XRP, ADA, dan DOGE. Sinyal strategi TypeScript digunakan oleh jalur bot dan simulator backtest agar aturan intinya dapat dibandingkan.</p>
+      <p>Strategi menggabungkan EMA 20/50/200, breakout tertinggi 40 candle, momentum ROC 10 candle, konfirmasi volume, serta exit berbasis tren dan ATR. Backtest menggunakan modal awal Rp100.000.000, maksimum tiga posisi, batas ukuran posisi Rp20.000.000, fee 0,15% per sisi, dan proxy slippage 0,05% per sisi.</p>
+    </div>
+    <div class="footer"><span>Refleksi akademik berdasarkan implementasi dan report tersimpan</span><span class="page-number">01 / 03</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <img class="logo" src="logo-cakrawala-doang-v2.webp" alt="Logo Cakrawala">
+      <div class="course">HASIL DAN METODOLOGI</div>
+    </div>
+    <h2>Hasil backtest</h2>
+    <p>Report yang tersimpan menggunakan candle 1 jam dari Indodax history_v2 untuk rentang 4 November 2023 sampai 4 November 2026. Angka berikut dibaca dari file report project; backtest adalah simulasi historis, bukan hasil trading live.</p>
+    <table>
+      <thead><tr><th>Metrik</th><th>Hasil</th><th>Interpretasi</th></tr></thead>
+      <tbody>
+        <tr><td>Total return</td><td>+31,45%</td><td>Equity akhir sekitar Rp131,45 juta dari modal Rp100 juta.</td></tr>
+        <tr><td>CAGR</td><td>+9,54%</td><td>Return tahunan majemuk untuk rentang tiga tahun.</td></tr>
+        <tr><td>Maximum drawdown</td><td>17,24%</td><td>Penurunan maksimum equity dari puncak yang tercatat.</td></tr>
+        <tr><td>Profit factor</td><td>1,62</td><td>Laba kotor trade menang dibagi rugi kotor trade kalah.</td></tr>
+        <tr><td>Win rate</td><td>33,54%</td><td>Mayoritas trade tidak menang; ukuran laba/rugi ikut menentukan hasil.</td></tr>
+        <tr><td>Buy-and-hold BTC/IDR</td><td>+157,92%</td><td>Strategi tertinggal dari benchmark pada periode report.</td></tr>
+        <tr><td>Jumlah trade tertutup</td><td>963</td><td>Trade berasal dari simulasi strategi dan asumsi fill report.</td></tr>
+      </tbody>
+    </table>
+    <div class="section">
+      <h2>Refleksi atas hasil</h2>
+      <p>Return positif tidak otomatis berarti strategi mengungguli pasar. Pada periode yang diuji, buy-and-hold BTC/IDR tumbuh jauh lebih tinggi daripada strategi. Win rate yang rendah juga menunjukkan bahwa profit factor di atas satu bergantung pada trade menang yang relatif lebih besar daripada trade kalah. Evaluasi lanjutan perlu menilai stabilitas per aset dan periode, bukan hanya total return.</p>
+      <p>Asumsi transaksi masih membatasi ketepatan hasil. Fee dimodelkan, slippage memakai angka tetap, sementara spread historis order book tidak tersedia. Oleh sebab itu biaya spread dicatat nol dan hasil tidak boleh ditafsirkan sebagai estimasi execution yang sepenuhnya realistis.</p>
+    </div>
+    <div class="callout">
+      <strong>Pelajaran metodologis:</strong> backtest harus menggunakan candle yang telah tertutup, sinyal dihitung tanpa melihat masa depan, dan fill dilakukan setelah sinyal. Namun kesamaan fungsi sinyal saja belum cukup; aturan fill, biaya, universe, serta waktu evaluasi juga harus konsisten.
+    </div>
+    <div class="footer"><span>Hasil bersumber dari public/data/backtest.json dan backtest-summary.json</span><span class="page-number">02 / 03</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <img class="logo" src="logo-cakrawala-doang-v2.webp" alt="Logo Cakrawala">
+      <div class="course">KETERBATASAN DAN RENCANA PERBAIKAN</div>
+    </div>
+    <h2>Forward test dan validitas bukti</h2>
+    <p>Report forward yang tersimpan menunjukkan satu trade ETH/IDR dengan PnL bersih sekitar -Rp191.893 atau -0,19%; benchmark BTC/IDR pada report tersebut -10,74%. Nilai ini merupakan replay retrospektif dari data historis yang tersedia, bukan catatan bahwa bot Vercel melakukan tick dan simulasi order secara langsung sepanjang periode.</p>
+    <div class="callout warning">
+      <strong>Kesesuaian waktu:</strong> PDF tugas menetapkan freeze 4 November pukul 12.00 WIB dan akhir forward test 14 November pukul 12.00 WIB. File report yang tersaji memakai 00.00 UTC untuk kedua batas, yaitu 07.00 WIB, sehingga bergeser lima jam. Upaya mengambil ulang candle historis kemudian menerima HTTP 403; karena itu report lama tidak ditimpa dan periode yang tepat belum dapat direkonstruksi.
+    </div>
+    <p>Pemeriksaan endpoint dashboard Vercel menunjukkan storage persisten aktif, tetapi pada saat diperiksa `hasRun` bernilai false, log kosong, dan metrik forward dari log runtime tidak tersedia. Saya juga tidak memiliki arsip candle mentah forward yang memungkinkan hasil tersebut dihitung ulang secara independen, snapshot order book historis, atau riwayat Git yang membuktikan commit freeze.</p>
+
+    <div class="section">
+      <h2>Perbaikan dan pembelajaran</h2>
+      <ul>
+        <li>Memperbaiki jalur tick agar meminta cukup candle untuk indikator, menjaga posisi saat reset harian, memperbarui state portofolio, dan mencatat alasan sinyal, gate risiko, snapshot top-of-book, serta error runtime.</li>
+        <li>Menambahkan penanda dashboard untuk membedakan replay historis dari log live serta menunjukkan ketidakcocokan tanggal freeze.</li>
+        <li>Menambahkan uji regresi untuk tanggal freeze, reset posisi, dan fill parsial. Build produksi berhasil dan perubahan kode telah dideploy.</li>
+        <li>Belajar bahwa scheduler, storage, dan log mentah adalah bagian dari eksperimen, bukan sekadar infrastruktur. Tanpa bukti tersebut, hasil performa tidak dapat dipertanggungjawabkan sebagai forward test live.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Rencana lanjutan</h2>
+      <p>Untuk pengujian prospektif berikutnya, saya perlu menetapkan freeze baru sebelum mulai, menyimpan versi kode dan parameter, menjalankan scheduler terpantau, mengarsipkan candle/order book dan setiap keputusan, lalu menghitung ulang dashboard dari arsip tersebut. Periode baru harus dilaporkan sebagai periode baru dan tidak menggantikan bukti periode tugas yang telah lewat.</p>
+      <p><strong>Kesimpulan:</strong> proyek telah menghasilkan fondasi backtest dan dashboard dry-run, tetapi bukti forward test live dan audit trail masih belum lengkap. Saya membatasi klaim pada data yang benar-benar tersimpan dan menjadikan kekurangan tersebut sebagai prioritas perbaikan.</p>
+    </div>
+    <div class="footer"><span>Catatan refleksi: report forward saat ini bukan bukti operasi live</span><span class="page-number">03 / 03</span></div>
+  </section>
+</body>
+</html>

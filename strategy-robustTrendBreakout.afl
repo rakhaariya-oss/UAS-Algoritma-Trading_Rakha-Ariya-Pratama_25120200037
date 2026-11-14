@@ -1,0 +1,70 @@
+/*
+    Strategi Baru: Robust Trend Breakout for 7 Universe
+    Disesuaikan untuk tugas Bot Dry Run Indodax
+
+    Universe yang dipilih:
+    1. BTC/IDR
+    2. ETH/IDR
+    3. SOL/IDR
+    4. BNB/IDR
+    5. XRP/IDR
+    6. ADA/IDR
+    7. DOGE/IDR
+
+    Prinsip strategi:
+    - Trend jangka panjang harus kuat
+    - Breakout sisi atas harus valid
+    - Volume harus mengonfirmasi break
+    - Exit memakai trailing stop dan filter trend
+    - Lebih aman untuk dry run dibanding strategi lama yang terlalu kaku
+*/
+
+SetOption("InitialEquity", 100000000);
+SetOption("MaxOpenPositions", 3);
+SetOption("MinShares", 1);
+SetOption("CommissionMode", 1);
+SetOption("CommissionAmount", 0.05);
+SetTradeDelays(1, 1, 1, 1);
+
+// Pilih satu pair per backtest atau gunakan per-symbol loop di AFL bila dibutuhkan
+// Karena tugas meminta 7 universe, list asset dapat dipakai sebagai filter universe.
+
+BuyPrice = Open;
+SellPrice = Open;
+
+longTrend = EMA(C, 200);
+midTrend = EMA(C, 50);
+fastTrend = EMA(C, 20);
+volatility = ATR(14);
+breakoutHigh = HHV(H, 40);
+breakoutLow = LLV(L, 40);
+volAvg = EMA(V, 20);
+priceMomentum = ROC(C, 10);
+
+// Konfirmasi trend bullish dan breakout valid
+Buy = C > longTrend
+     AND midTrend > longTrend
+     AND fastTrend > midTrend
+     AND C > breakoutHigh
+     AND priceMomentum > 0
+     AND V > volAvg;
+
+// Exit harus tidak terlalu agresif agar tidak terlalu cepat keluar dari tren
+Sell = C < fastTrend
+     OR C < breakoutLow
+     OR C <= HighestSince(Buy, C) - 2.2 * volatility
+     OR priceMomentum < -5;
+
+// Bersihkan sinyal yang tumpang tindih
+Buy = ExRem(Buy, Sell);
+Sell = ExRem(Sell, Buy);
+
+// Risiko dikelola supaya tidak terlalu banyak posisi
+SetPositionSize(15, spsPercentOfEquity);
+
+// Catatan strategi:
+// 1. Trend jangka panjang harus bagus
+// 2. Breakout harus dikonfirmasi volume
+// 3. Exit memakai trailing stop berbasis ATR
+// 4. Tidak terlalu bergantung pada angka volume absolut yang bisa berbeda antar pair
+// 5. Cocok digunakan untuk simulasi dry run pada universe 7 aset kripto utama

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Indodax Dry Run Bot</title>
+    <meta http-equiv="refresh" content="0; url=public/dashboard.html" />
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: #0d1a2a;
+        --panel: rgba(16, 28, 44, 0.88);
+        --panel-border: rgba(148, 163, 184, 0.15);
+        --primary: #5eead4;
+        --secondary: #7dd3fc;
+        --accent: #e9d5ff;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --red: #f87171;
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        color-scheme: dark;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(94, 234, 212, 0.18), transparent 30%),
+          linear-gradient(135deg, #07111f, #020817 45%, #0f172a 100%);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--secondary);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+      }
+
+      .badge {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #0f172a;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 20px;
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.20), rgba(14, 165, 233, 0.12));
+        border: 1px solid rgba(94, 234, 212, 0.18);
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+
+      .hero h2 {
+        margin: 0 0 12px;
+        font-size: clamp(1.6rem, 2vw, 2.5rem);
+      }
+
+      .label {
+        margin: 0 0 8px;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+        gap: 14px;
+        align-items: stretch;
+      }
+
+      .stat-card {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 16px;
+        padding: 16px 18px;
+      }
+
+      .stat-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .stat-card strong {
+        font-size: 1.15rem;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 18px;
+        padding: 20px;
+      }
+
+      .panel h3 {
+        margin: 0 0 18px;
+        font-size: 1.15rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      li {
+        padding: 12px 14px;
+        background: rgba(15, 23, 42, 0.52);
+        border: 1px solid rgba(148, 163, 184, 0.12);
+        border-radius: 12px;
+      }
+
+      .status {
+        display: inline-block;
+        margin-top: 14px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #052e2b;
+        background: rgba(52, 211, 153, 0.9);
+      }
+
+      @media (max-width: 760px) {
+        .hero, .row, .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Algorithmic Trading • UAS</p>
+          <h1>Indodax Dry Run Bot</h1>
+        </div>
+        <div class="badge">LIVE SIMULATION</div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="label">Strategi</p>
+          <h2>Robust Trend Breakout</h2>
+          <div class="status">Dry Run Active</div>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span>Modal Virtual</span>
+            <strong>Rp100.000.000</strong>
+          </div>
+          <div class="stat-card">
+            <span>Universe</span>
+            <strong>7 Pasang</strong>
+          </div>
+          <div class="stat-card">
+            <span>Mode</span>
+            <strong>Dry Run</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="row">
+        <div class="panel">
+          <h3>7 Universe</h3>
+          <ul>
+            <li>BTC/IDR</li>
+            <li>ETH/IDR</li>
+            <li>SOL/IDR</li>
+            <li>BNB/IDR</li>
+            <li>XRP/IDR</li>
+            <li>ADA/IDR</li>
+            <li>DOGE/IDR</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>Strategi Highlights</h3>
+          <ul>
+            <li>Trend-following breakout</li>
+            <li>EMA 200 / 50 / 20</li>
+            <li>Volume confirmation</li>
+            <li>ATR trailing stop</li>
+            <li>Dry run tanpa order live</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

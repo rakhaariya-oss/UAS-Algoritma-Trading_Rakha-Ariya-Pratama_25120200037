@@ -1,0 +1,15 @@
+SetOption("InitialEquity", 100000000);
+SetOption("MaxOpenPositions", 10);
+SetTradeDelays(1, 1, 1, 1);
+BuyPrice = Open;
+SellPrice = Open;
+SetPositionSize(10, spsPercentOfEquity);
+averageValue = MA(C * V, 20);
+breakoutPeriod = 84;
+atrMultiple = 5.4;
+maExitPeriod = 250;
+trendAverage = MA(C, maExitPeriod);
+Buy = C > trendAverage AND C > Ref(HHV(H, breakoutPeriod), -1) AND averageValue >= 5000000000;
+Sell = C <= HighestSince(Buy, C) - atrMultiple * ATR(14) OR C < trendAverage;
+Buy = ExRem(Buy, Sell);
+Sell = ExRem(Sell, Buy);
