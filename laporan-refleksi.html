@@ -38,6 +38,15 @@
     .muted { color: #667b80; font-size: 9pt; }
     .footer { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; border-top: 1px solid #d5e0df; padding-top: 2mm; color: #75878a; font-size: 8pt; }
     .page-number { color: #07566b; font-weight: 700; }
+    @media print {
+      .page:last-child { font-size: 9.5pt; line-height: 1.4; }
+      .page:last-child .topline { margin-bottom: 8mm; }
+      .page:last-child p { margin-bottom: 2mm; }
+      .page:last-child .callout { margin: 2.5mm 0; padding: 3mm 4mm; }
+      .page:last-child .section { margin: 3mm 0; }
+      .page:last-child ul { margin: 1mm 0 2mm; }
+      .page:last-child li { margin-bottom: 0.7mm; }
+    }
   </style>
 </head>
 <body>
@@ -51,19 +60,20 @@
     <p class="identity"><strong>Rakha Ariya Pratama</strong><br>NIM 25120200037<br>14 November 2026</p>
 
     <div class="summary">
-      <strong>Ringkasan refleksi.</strong> Proyek ini berhasil membangun alur backtest historis dan dashboard untuk strategi trend-breakout pada pasangan IDR. Hasil backtest dan replay historis tersedia, tetapi keduanya belum membuktikan bahwa bot berjalan dan mencatat forward test live selama periode tugas. Karena itu, angka performa perlu dibaca bersama keterbatasan sumber data, waktu freeze, dan bukti operasional yang dijelaskan dalam laporan ini.
+      <strong>Ringkasan refleksi.</strong> Proyek ini menghasilkan backtest tiga tahun dan replay historis yang mencakup jendela tugas dengan waktu freeze yang sesuai. Keduanya dihitung dari candle publik Indodax, bukan log eksekusi live. Karena itu, hasil performa dapat direproduksi dari arsip, tetapi tidak membuktikan bahwa bot berjalan dan mencatat forward test live selama periode tugas.
     </div>
 
     <div class="stats">
       <div class="stat"><span>Backtest tersimpan</span><strong>+31,45%</strong></div>
-      <div class="stat"><span>Forward report tersimpan</span><strong>-0,19%</strong></div>
-      <div class="stat"><span>Trade forward report</span><strong>1</strong></div>
+      <div class="stat"><span>Forward replay historis</span><strong>-0,19%</strong></div>
+      <div class="stat"><span>Trade pada replay</span><strong>1</strong></div>
     </div>
 
     <div class="section">
       <h2>Tujuan dan rancangan</h2>
       <p>Tujuan proyek adalah menguji aturan strategi pada data candle Indodax tanpa mengirim order sungguhan. Implementasi memakai tujuh pasangan IDR: BTC, ETH, SOL, BNB, XRP, ADA, dan DOGE. Sinyal strategi TypeScript digunakan oleh jalur bot dan simulator backtest agar aturan intinya dapat dibandingkan.</p>
-      <p>Strategi menggabungkan EMA 20/50/200, breakout tertinggi 40 candle, momentum ROC 10 candle, konfirmasi volume, serta exit berbasis tren dan ATR. Backtest menggunakan modal awal Rp100.000.000, maksimum tiga posisi, batas ukuran posisi Rp20.000.000, fee 0,15% per sisi, dan proxy slippage 0,05% per sisi.</p>
+      <p>Strategi memakai EMA 20/50/200, breakout high 40 candle, ROC 10 candle, konfirmasi volume EMA 20, serta exit tren dan ATR 14. Baseline waktu, aturan, parameter, dan universe dicatat di README; commit dokumentasinya `93369ab`.</p>
+      <p>Backtest memakai modal Rp100.000.000, maksimum tiga posisi, batas Rp20.000.000 per posisi, dan batas rugi harian Rp12.000.000. Fee diasumsikan 0,15% dan slippage 0,05% per sisi.</p>
     </div>
     <div class="footer"><span>Refleksi akademik berdasarkan implementasi dan report tersimpan</span><span class="page-number">01 / 03</span></div>
   </section>
@@ -80,10 +90,10 @@
       <tbody>
         <tr><td>Total return</td><td>+31,45%</td><td>Equity akhir sekitar Rp131,45 juta dari modal Rp100 juta.</td></tr>
         <tr><td>CAGR</td><td>+9,54%</td><td>Return tahunan majemuk untuk rentang tiga tahun.</td></tr>
-        <tr><td>Maximum drawdown</td><td>17,24%</td><td>Penurunan maksimum equity dari puncak yang tercatat.</td></tr>
+        <tr><td>Maximum drawdown</td><td>15,76%</td><td>Penurunan maksimum equity dari puncak yang tercatat.</td></tr>
         <tr><td>Profit factor</td><td>1,62</td><td>Laba kotor trade menang dibagi rugi kotor trade kalah.</td></tr>
         <tr><td>Win rate</td><td>33,54%</td><td>Mayoritas trade tidak menang; ukuran laba/rugi ikut menentukan hasil.</td></tr>
-        <tr><td>Buy-and-hold BTC/IDR</td><td>+157,92%</td><td>Strategi tertinggal dari benchmark pada periode report.</td></tr>
+        <tr><td>Buy-and-hold BTC/IDR</td><td>+157,11%</td><td>Strategi tertinggal dari benchmark pada periode report.</td></tr>
         <tr><td>Jumlah trade tertutup</td><td>963</td><td>Trade berasal dari simulasi strategi dan asumsi fill report.</td></tr>
       </tbody>
     </table>
@@ -104,26 +114,26 @@
       <div class="course">KETERBATASAN DAN RENCANA PERBAIKAN</div>
     </div>
     <h2>Forward test dan validitas bukti</h2>
-    <p>Report forward yang tersimpan menunjukkan satu trade ETH/IDR dengan PnL bersih sekitar -Rp191.893 atau -0,19%; benchmark BTC/IDR pada report tersebut -10,74%. Nilai ini merupakan replay retrospektif dari data historis yang tersedia, bukan catatan bahwa bot Vercel melakukan tick dan simulasi order secara langsung sepanjang periode.</p>
-    <div class="callout warning">
-      <strong>Kesesuaian waktu:</strong> PDF tugas menetapkan freeze 4 November pukul 12.00 WIB dan akhir forward test 14 November pukul 12.00 WIB. File report yang tersaji memakai 00.00 UTC untuk kedua batas, yaitu 07.00 WIB, sehingga bergeser lima jam. Upaya mengambil ulang candle historis kemudian menerima HTTP 403; karena itu report lama tidak ditimpa dan periode yang tepat belum dapat direkonstruksi.
+    <p>Forward replay mencatat satu trade ETH/IDR dengan PnL bersih sekitar -Rp191.893 atau -0,19%; benchmark BTC/IDR pada jendela yang sama -12,91%. Replay memakai candle historis yang tersedia, bukan catatan bahwa bot Vercel melakukan tick atau simulasi order secara langsung sepanjang periode.</p>
+    <div class="callout">
+      <strong>Waktu freeze dan reproduksibilitas:</strong> backtest berlangsung dari 4 November 2023 pukul 12.00 WIB (`2023-11-04T05:00:00.000Z`) sampai freeze 4 November 2026 pukul 12.00 WIB (`2026-11-04T05:00:00.000Z`). Forward replay mencakup waktu freeze sampai 14 November 2026 pukul 12.00 WIB (`2026-11-14T05:00:00.000Z`) dan ditandai lengkap. Candle dan keputusan replay tersimpan di `public/data/forward-replay.json`; `npm run hitung_ulang` dapat menghitung ulang hasil dari arsip tersebut. README mencatat baseline freeze dan riwayat Git memiliki commit `93369ab`.
     </div>
-    <p>Pemeriksaan endpoint dashboard Vercel menunjukkan storage persisten aktif, tetapi pada saat diperiksa `hasRun` bernilai false, log kosong, dan metrik forward dari log runtime tidak tersedia. Saya juga tidak memiliki arsip candle mentah forward yang memungkinkan hasil tersebut dihitung ulang secara independen, snapshot order book historis, atau riwayat Git yang membuktikan commit freeze.</p>
+    <p>Pada pemeriksaan deployment terakhir yang dicatat, storage persisten aktif tetapi `hasRun` bernilai false, log runtime kosong, dan metrik forward dari log live tidak tersedia. Arsip candle historis memungkinkan replay dihitung ulang, tetapi tidak menggantikan log eksekusi live. Snapshot order book historis juga tidak tersedia; biaya spread dicatat nol dan slippage dimodelkan terpisah.</p>
 
     <div class="section">
       <h2>Perbaikan dan pembelajaran</h2>
       <ul>
-        <li>Memperbaiki jalur tick agar meminta cukup candle untuk indikator, menjaga posisi saat reset harian, memperbarui state portofolio, dan mencatat alasan sinyal, gate risiko, snapshot top-of-book, serta error runtime.</li>
-        <li>Menambahkan penanda dashboard untuk membedakan replay historis dari log live serta menunjukkan ketidakcocokan tanggal freeze.</li>
-        <li>Menambahkan uji regresi untuk tanggal freeze, reset posisi, dan fill parsial. Build produksi berhasil dan perubahan kode telah dideploy.</li>
-        <li>Belajar bahwa scheduler, storage, dan log mentah adalah bagian dari eksperimen, bukan sekadar infrastruktur. Tanpa bukti tersebut, hasil performa tidak dapat dipertanggungjawabkan sebagai forward test live.</li>
+        <li>Menyesuaikan jendela laporan dengan ketentuan freeze, mengambil ulang data historis, dan menyimpan arsip candle serta keputusan replay.</li>
+        <li>Mencatat aturan, parameter, universe, dan waktu baseline di README serta membuat commit Git yang dapat dirujuk.</li>
+        <li>Menambahkan uji regresi untuk tanggal freeze, reset posisi, dan fill parsial; build produksi dan pemeriksaan ulang replay berhasil.</li>
+        <li>Belajar bahwa scheduler, storage, dan log mentah adalah bagian dari eksperimen. Replay historis yang lengkap tetap tidak dapat diklaim sebagai forward test live.</li>
       </ul>
     </div>
 
     <div class="section">
       <h2>Rencana lanjutan</h2>
       <p>Untuk pengujian prospektif berikutnya, saya perlu menetapkan freeze baru sebelum mulai, menyimpan versi kode dan parameter, menjalankan scheduler terpantau, mengarsipkan candle/order book dan setiap keputusan, lalu menghitung ulang dashboard dari arsip tersebut. Periode baru harus dilaporkan sebagai periode baru dan tidak menggantikan bukti periode tugas yang telah lewat.</p>
-      <p><strong>Kesimpulan:</strong> proyek telah menghasilkan fondasi backtest dan dashboard dry-run, tetapi bukti forward test live dan audit trail masih belum lengkap. Saya membatasi klaim pada data yang benar-benar tersimpan dan menjadikan kekurangan tersebut sebagai prioritas perbaikan.</p>
+      <p><strong>Kesimpulan:</strong> proyek memiliki backtest, replay historis yang sesuai jendela tugas, arsip untuk reproduksi, dan catatan baseline di Git. Bukti forward test live tetap tidak tersedia, sementara ketiadaan snapshot order book membatasi estimasi biaya transaksi. Saya membatasi klaim pada bukti yang benar-benar tersimpan.</p>
     </div>
     <div class="footer"><span>Catatan refleksi: report forward saat ini bukan bukti operasi live</span><span class="page-number">03 / 03</span></div>
   </section>
